@@ -23,15 +23,15 @@ function printHelp() {
   println "Usage: "
   println "  network.sh <Mode> [Flags]"
   println "    Modes:"
-  println "      "$'\e[0;32m'up$'\e[0m' - bring up fabric orderer and peer nodes. No channel is created
-  println "      "$'\e[0;32m'up createChannel$'\e[0m' - bring up fabric network with one channel
-  println "      "$'\e[0;32m'createChannel$'\e[0m' - create and join a channel after the network is created
-  println "      "$'\e[0;32m'deployCC$'\e[0m' - deploy the asset transfer basic chaincode on the channel or specify
-  println "      "$'\e[0;32m'down$'\e[0m' - clear the network with docker-compose down
-  println "      "$'\e[0;32m'restart$'\e[0m' - restart the network
+  println "      \033[0;32mup\033[0m - bring up fabric orderer and peer nodes. No channel is created"
+  println "      \033[0;32mup createChannel\033[0m - bring up fabric network with one channel"
+  println "      \033[0;32mcreateChannel\033[0m - create and join a channel after the network is created"
+  println "      \033[0;32mdeployCC\033[0m - deploy the asset transfer basic chaincode on the channel or specify"
+  println "      \033[0;32mdown\033[0m - clear the network with docker-compose down"
+  println "      \033[0;32mrestart\033[0m - restart the network"
   println
   println "    Flags:"
-  println "    Used with "$'\e[0;32m'network.sh up$'\e[0m', $'\e[0;32m'network.sh createChannel$'\e[0m':
+  println "    Used with \033[0;32mnetwork.sh up\033[0m, \033[0;32mnetwork.sh createChannel\033[0m:"
   println "    -ca <use CAs> -  create Certificate Authorities to generate the crypto material"
   println "    -c <channel name> - channel name to use (defaults to \"mychannel\")"
   println "    -s <dbtype> - the database backend to use: goleveldb (default) or couchdb"
@@ -40,7 +40,7 @@ function printHelp() {
   println "    -i <imagetag> - the tag to be used to launch the network (defaults to \"latest\")"
   println "    -cai <ca_imagetag> - the image tag to be used for CA (defaults to \"${CA_IMAGETAG}\")"
   println "    -verbose - verbose mode"
-  println "    Used with "$'\e[0;32m'network.sh deployCC$'\e[0m'
+  println "    Used with \033[0;32mnetwork.sh deployCC\033[0m"
   println "    -c <channel name> - deploy chaincode to channel"
   println "    -ccn <name> - the short name of the chaincode to deploy: basic (default),ledger, private, sbe, secured"
   println "    -ccl <language> - the programming language of the chaincode to deploy: go (default), java, javascript, typescript"
@@ -54,10 +54,10 @@ function printHelp() {
   println "    -h - print this message"
   println
   println " Possible Mode and flag combinations"
-  println "   "$'\e[0;32m'up$'\e[0m' -ca -c -r -d -s -i -verbose
-  println "   "$'\e[0;32m'up createChannel$'\e[0m' -ca -c -r -d -s -i -verbose
-  println "   "$'\e[0;32m'createChannel$'\e[0m' -c -r -d -verbose
-  println "   "$'\e[0;32m'deployCC$'\e[0m' -ccn -ccl -ccv -ccs -ccp -cci -r -d -verbose
+  println "   \033[0;32mup\033[0m -ca -c -r -d -s -i -verbose"
+  println "   \033[0;32mup createChannel\033[0m -ca -c -r -d -s -i -verbose"
+  println "   \033[0;32mcreateChannel\033[0m -c -r -d -verbose"
+  println "   \033[0;32mdeployCC\033[0m -ccn -ccl -ccv -ccs -ccp -cci -r -d -verbose"
   println
   println " Taking all defaults:"
   println "   network.sh up"
@@ -236,7 +236,14 @@ function createOrgs() {
 
     . organizations/fabric-ca/registerEnroll.sh
 
-    sleep 10
+  while :
+    do
+      if [ ! -f "organizations/fabric-ca/org1/tls-cert.pem" ]; then
+        sleep 1
+      else
+        break
+      fi
+    done
 
     infoln "Create Org1 Identities"
 
