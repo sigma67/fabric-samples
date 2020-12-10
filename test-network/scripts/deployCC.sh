@@ -42,6 +42,9 @@ if [ "$CC_SRC_PATH" = "NA" ]; then
   if [ "$CC_NAME" = "basic" ]; then
     println $'\e[0;32m'asset-transfer-basic$'\e[0m' chaincode
     CC_SRC_PATH="../asset-transfer-basic"
+  elif [ "$CC_NAME" = "events" ]; then
+    println $'\e[0;32m'asset-transfer-events$'\e[0m' chaincode
+    CC_SRC_PATH="../asset-transfer-events"
   elif [ "$CC_NAME" = "secured" ]; then
     println $'\e[0;32m'asset-transfer-secured-agreeement$'\e[0m' chaincode
     CC_SRC_PATH="../asset-transfer-secured-agreement"
@@ -55,7 +58,7 @@ if [ "$CC_SRC_PATH" = "NA" ]; then
     println $'\e[0;32m'asset-transfer-sbe$'\e[0m' chaincode
     CC_SRC_PATH="../asset-transfer-sbe"
   else
-    fatalln "The chaincode name ${CC_NAME} is not supported by this script. Supported chaincode names are: basic, ledger, private, sbe, secured"
+    fatalln "The chaincode name ${CC_NAME} is not supported by this script. Supported chaincode names are: basic, events, ledger, private, sbe, secured"
   fi
 
   # now see what language it is written in
@@ -134,23 +137,17 @@ else
   CC_COLL_CONFIG="--collections-config $CC_COLL_CONFIG"
 fi
 
-#if [ "$CC_INIT_FCN" = "NA" ]; then
-#	INIT_REQUIRED=""
-#fi
-
 # import utils
 . scripts/envVar.sh
 
 packageChaincode() {
-  ORG=$1
-  setGlobals $ORG
   set -x
   peer lifecycle chaincode package ${CC_NAME}.tar.gz --path ${CC_SRC_PATH} --lang ${CC_RUNTIME_LANGUAGE} --label ${CC_NAME}_${CC_VERSION} >&log.txt
   res=$?
   { set +x; } 2>/dev/null
   cat log.txt
-  verifyResult $res "Chaincode packaging on peer0.org${ORG} has failed"
-  successln "Chaincode is packaged on peer0.org${ORG}"
+  verifyResult $res "Chaincode packaging has failed"
+  successln "Chaincode is packaged"
 }
 
 # installChaincode PEER ORG
@@ -317,7 +314,7 @@ chaincodeQuery() {
 }
 
 ## package the chaincode
-packageChaincode 1
+packageChaincode
 
 ## Install chaincode on peer0.org1 and peer0.org2
 infoln "Installing chaincode on peer0.org1..."

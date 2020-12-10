@@ -19,7 +19,7 @@ state-based endorsement, visit the
 [Endorsement Policies](https://hyperledger-fabric.readthedocs.io/en/release-2.2/endorsement-policies.html)
 topic in the Fabric documentation.
 
-The implementation provided by State Based interface creates a policy which requires signatures from all the Org principals added, and hence is equivalent to an AND policy. For other advanced State Based policy implementations which are not supported by State Based interface directly like OR or NOutOf policies, please refer to method implementations setAssetStateBasedEndorsementWithNOutOfPolicy(), which can be used as an alternative for setAssetStateBasedEndorsement() inside asset-transfer-sbe smart contracts.
+The implementation provided by State Based interface creates a policy which requires signatures from all the Org principals added, and hence is equivalent to an AND policy. For other advanced State Based policy implementations which are not supported by State Based interface directly like OR or NOutOf policies, please refer to method implementations setStateBasedEndorsementNOutOf(), which can be used as an alternative for setStateBasedEndorsement() inside asset-transfer-sbe smart contracts.
 
 ## About the Sample
 
@@ -64,7 +64,7 @@ Run the following command to deploy the test network and create a channel named 
 
 You can use the test network script to deploy the smart contract to the channel that was just created. The script uses the Fabric chaincode lifecycle to deploy the smart contract to the channel. We will use the default chaincode level endorsement policy used by the Fabric chaincode lifecycle, which requires an endorsement from a majority of channel members. In our case, this will require that both Org1 and Org2 endorse a transaction (2 of 2). Deploy the smart contract to `mychannel` using the following command:
 ```
-./network.sh deployCC -ccn sbe -ccl typescript
+./network.sh deployCC -ccn sbe -ccp ../asset-transfer-sbe/chaincode-typescript/ -ccl typescript
 ```
 
 Set the following environment variables to interact with the network as a user from Org1:

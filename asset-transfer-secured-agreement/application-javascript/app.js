@@ -29,16 +29,16 @@
 //   to deploy a chaincode to a channel with the endorsement and private collection
 //   settings.
 //         ===> from directory /fabric-samples/test-network
-//         ./network.sh deployCC -ccn secured -ccl go -ccep "OR('Org1MSP.peer','Org2MSP.peer')"
+//         ./network.sh deployCC -ccn secured -ccp ../asset-transfer-secured-agreement/chaincode-go/ -ccl go -ccep "OR('Org1MSP.peer','Org2MSP.peer')"
 //
 // - Be sure that node.js is installed
-//         ===> from directory /fabric-samples/asset-transfer-sbe/application-javascript
+//         ===> from directory /fabric-samples/asset-transfer-secured-agreement/application-javascript
 //         node -v
 // - npm installed code dependencies
-//         ===> from directory /fabric-samples/asset-transfer-sbe/application-javascript
+//         ===> from directory /fabric-samples/asset-transfer-secured-agreement/application-javascript
 //         npm install
 // - to run this test application
-//         ===> from directory /fabric-samples/asset-transfer-sbe/application-javascript
+//         ===> from directory /fabric-samples/asset-transfer-secured-agreement/application-javascript
 //         node app.js
 
 // NOTE: If you see an error like these:
@@ -51,7 +51,7 @@
    Failed to register user : Error: fabric-ca request register failed with errors [[ { code: 20, message: 'Authentication failure' } ]]
 
 	*/
-// Delete the /fabric-samples/asset-transfer-sbe/application-javascript/wallet directory
+// Delete the /fabric-samples/asset-transfer-secured-agreement/application-javascript/wallet directory
 // and retry this application.
 //
 // The certificate authority must have been restarted and the saved certificates for the
