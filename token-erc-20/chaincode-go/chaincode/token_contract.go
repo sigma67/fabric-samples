@@ -23,9 +23,9 @@ type SmartContract struct {
 
 // event provides an organized struct for emitting events
 type event struct {
-	from  string
-	to    string
-	value int
+	From  string `json:"from"`
+	To    string `json:"to"`
+	Value int    `json:"value"`
 }
 
 // Mint creates new tokens and adds them to minter's account balance
@@ -426,6 +426,10 @@ func (s *SmartContract) TransferFrom(ctx contractapi.TransactionContextInterface
 // transferHelper is a helper function that transfers tokens from the "from" address to the "to" address
 // Dependant functions include Transfer and TransferFrom
 func transferHelper(ctx contractapi.TransactionContextInterface, from string, to string, value int) error {
+
+	if from == to {
+		return fmt.Errorf("cannot transfer to and from same client account")
+	}
 
 	if value < 0 { // transfer of 0 is allowed in ERC-20, so just validate against negative amounts
 		return fmt.Errorf("transfer amount cannot be negative")
